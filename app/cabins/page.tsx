@@ -1,4 +1,5 @@
 import CabinCard from "@/app/_components/CabinCard";
+import { getCabins } from "../_lib/data-service";
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
@@ -6,9 +7,9 @@ export const metadata = {
   title: "Cabins",
 };
 
-export default function Page() {
+export default async function Page() {
   // CHANGE
-  const cabins = [];
+  const cabins = await getCabins();
 
   return (
     <div>

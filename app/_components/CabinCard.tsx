@@ -1,6 +1,7 @@
 import { UsersIcon } from "@heroicons/react/24/solid";
+import { Tables } from "../_lib/database.types";
 
-function CabinCard({ cabin }: any) {
+function CabinCard({ ...cabin }: Tables<"cabins">) {
   const { id, name, maxCapacity, regularPrice, discount, image } = cabin;
 
   return (
@@ -25,7 +26,7 @@ function CabinCard({ cabin }: any) {
           </div>
 
           <p className="flex gap-3 justify-end items-baseline">
-            {discount > 0 ? (
+            {discount && regularPrice && discount > 0 ? (
               <>
                 <span className="text-3xl font-[350]">
                   ${regularPrice - discount}
