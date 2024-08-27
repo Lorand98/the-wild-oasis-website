@@ -4,6 +4,8 @@ import { Suspense } from "react";
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
+// export const revalidate = 3600;
+
 export const metadata = {
   title: "Cabins",
 };

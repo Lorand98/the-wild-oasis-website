@@ -2,12 +2,12 @@ import { ReactNode } from "react";
 
 import Header from "@/app/_components/Header";
 
-import { Josefin_Sans } from "next/font/google";
+// import { Josefin_Sans } from "next/font/google";
 
-const josefin = Josefin_Sans({
-  subsets: ["latin"],
-  display: "swap",
-});
+// const josefin = Josefin_Sans({
+//   subsets: ["latin"],
+//   display: "swap",
+// });
 
 import "@/app/_styles/globals.css";
 
@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body
-        className={`${josefin.className} antialiased bg-primary-950 text-primary-100 min-h-screen flex flex-col relative`}
+        className={`antialiased bg-primary-950 text-primary-100 min-h-screen flex flex-col relative`}
       >
         <Header />
 
