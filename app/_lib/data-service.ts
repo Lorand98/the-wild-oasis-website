@@ -1,6 +1,6 @@
 import { eachDayOfInterval } from "date-fns";
 import { supabase } from "./supabase";
-import { Database, TablesInsert } from "./database.types";
+import { TablesInsert } from "./database.types";
 import { notFound } from "next/navigation";
 
 /////////////
@@ -141,7 +141,9 @@ export async function getSettings() {
   return data;
 }
 
-export async function getCountries() {
+export async function getCountries(): Promise<
+  { name: string; flag: string; independent: boolean }[]
+> {
   try {
     const res = await fetch(
       "https://restcountries.com/v2/all?fields=name,flag"

@@ -1,6 +1,8 @@
 import { ReactNode } from "react";
 
 import Header from "@/app/_components/Header";
+import { ReservationProvider } from "@/app/_components/ReservationContext";
+import "@/app/_styles/globals.css";
 
 // import { Josefin_Sans } from "next/font/google";
 
@@ -8,8 +10,6 @@ import Header from "@/app/_components/Header";
 //   subsets: ["latin"],
 //   display: "swap",
 // });
-
-import "@/app/_styles/globals.css";
 
 export const metadata = {
   // title: "The Wild Oasis",
@@ -29,8 +29,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       >
         <Header />
 
-        <div className="flex-1 px-8 py-12 grid">
-          <main className="max-w-7xl mx-auto w-full">{children}</main>
+        <div className="flex-1 px-8 py-12 ">
+          <main className="max-w-7xl mx-auto w-full">
+            <ReservationProvider>{children}</ReservationProvider>
+          </main>
         </div>
       </body>
     </html>
