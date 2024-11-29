@@ -9,8 +9,6 @@ export default function Filter() {
   const pathname = usePathname();
 
   const activeFilter = searchParams.get("capacity") ?? "all";
-
-  console.log(searchParams);
   const handleFilter = (filter: string) => {
     const params = new URLSearchParams(searchParams);
     params.set("capacity", filter);
