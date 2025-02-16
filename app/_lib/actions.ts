@@ -13,3 +13,7 @@ export async function signOutAction() {
     redirectTo: "/",
   });
 }
+
+export async function updateGuest(formData: unknown) {
+  console.log(formData);
+}
