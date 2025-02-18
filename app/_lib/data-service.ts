@@ -86,7 +86,7 @@ const bookingsQuery = supabase
     "id, created_at, startDate, endDate, numNights, numGuests, totalPrice, guestId, cabinId, cabins(name, image)"
   );
 
-export type BookingWithCabin = QueryData<typeof bookingsQuery>;
+export type BookingsWithCabin = QueryData<typeof bookingsQuery>;
 
 export async function getBookings(guestId: number) {
   const { data, error, count } = await bookingsQuery

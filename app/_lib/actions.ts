@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { auth, signIn, signOut } from "./auth";
 import { supabase } from "./supabase";
 import { getBookings } from "./data-service";
+import { redirect } from "next/navigation";
 
 export async function signInAction() {
   await signIn("google", {
@@ -77,4 +78,41 @@ export async function deleteReservation(bookingId: number) {
   }
 
   revalidatePath("/account/reservations");
+}
+
+export async function updateReservation(updateFields: FormData) {
+  const session = await auth();
+  if (!session) throw new Error("You have to be logged in!");
+
+  const numGuests = updateFields.get("numGuests");
+  const observations = updateFields.get("observations");
+  const bookingId = updateFields.get("bookingId");
+
+  console.log(numGuests, observations, bookingId);
+
+  if (!numGuests || !bookingId) {
+    throw new Error("Invalid form data received.");
+  }
+
+  const updateData = {
+    numGuests: Number(numGuests),
+    observations: observations?.toString(),
+  };
+
+  const { error } = await supabase
+    .from("bookings")
+    .update(updateData)
+    .eq("id", Number(bookingId))
+    .eq("guestId", session.user.guestId)
+    .select()
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Booking could not be updated");
+  }
+
+  revalidatePath("/account/reservations");
+  revalidatePath("/account/reservations/edit/[bookingId]");
+  redirect("/account/reservations");
 }

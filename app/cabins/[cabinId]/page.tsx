@@ -31,7 +31,6 @@ export default async function Page({
 }) {
   const cabin = await getCabin(Number(params.cabinId));
 
-  // ])
   if (!cabin) {
     throw new Error("Cabin not found");
   }
