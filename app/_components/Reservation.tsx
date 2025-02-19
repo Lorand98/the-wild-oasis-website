@@ -16,8 +16,16 @@ async function Reservation({ cabin }: { cabin: Tables<"cabins"> }) {
 
   return (
     <div className="grid grid-cols-2 border border-primary-800 min-h-[400px]">
-      <DateSelector settings={settings} bookedDates={bookedDates} cabin={cabin} />
-      {session?.user ? <ReservationForm cabin={cabin} user={session.user} /> : <LoginMessage />}
+      <DateSelector
+        settings={settings}
+        bookedDates={bookedDates}
+        cabin={cabin}
+      />
+      {session?.user?.name && session.user?.image ? (
+        <ReservationForm cabin={cabin} user={{name: session.user.name, image: session.user.image}} />
+      ) : (
+        <LoginMessage />
+      )}
     </div>
   );
 }

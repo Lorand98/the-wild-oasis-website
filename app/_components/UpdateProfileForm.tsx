@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import { Tables } from "../_lib/database.types";
 import { updateGuest } from "../_lib/actions";
-import { useFormStatus } from "react-dom";
+import { Tables } from "../_lib/database.types";
 import SubmitButton from "./SubmitButton";
+import Image from "next/image";
 
 function UpdateProfileForm({
   children,
@@ -42,12 +42,15 @@ function UpdateProfileForm({
 
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <label htmlFor="nationality">Where are you from?</label>
-          <img
-            src={countryFlag}
-            alt="Country flag"
-            className="h-5 rounded-sm"
-          />
+          {countryFlag && (
+            <Image
+              src={countryFlag}
+              alt="Country flag"
+              className="h-5 rounded-sm"
+              width={20}
+              height={20}
+            />
+          )}
         </div>
 
         {children}
@@ -63,7 +66,9 @@ function UpdateProfileForm({
       </div>
 
       <div className="flex justify-end items-center gap-6">
-        <SubmitButton pendingLabel="Updating profile...">Update profile</SubmitButton>
+        <SubmitButton pendingLabel="Updating profile...">
+          Update profile
+        </SubmitButton>
       </div>
     </form>
   );
