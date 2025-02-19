@@ -3,6 +3,7 @@
 import { useFormStatus } from "react-dom";
 import { Tables } from "../_lib/database.types";
 import { updateReservation } from "../_lib/actions";
+import SubmitButton from "./SubmitButton";
 
 export default function UpdateReservationForm({
   booking,
@@ -51,20 +52,10 @@ export default function UpdateReservationForm({
       </div>
 
       <div className="flex justify-end items-center gap-6">
-        <Button />
+        <SubmitButton pendingLabel="Updating reservation...">
+          Update reservation
+        </SubmitButton>
       </div>
     </form>
-  );
-}
-
-function Button() {
-  const { pending } = useFormStatus();
-  return (
-    <button
-      className="bg-accent-500 px-8 py-4 text-primary-800 font-semibold hover:bg-accent-600 transition-all disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300"
-      disabled={pending}
-    >
-      {pending ? "Updating reservation..." : "Update reservation"}
-    </button>
   );
 }

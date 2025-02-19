@@ -5,6 +5,7 @@ import { auth, signIn, signOut } from "./auth";
 import { supabase } from "./supabase";
 import { getBookings } from "./data-service";
 import { redirect } from "next/navigation";
+import { Tables } from "./database.types";
 
 export async function signInAction() {
   await signIn("google", {
@@ -115,4 +116,51 @@ export async function updateReservation(updateFields: FormData) {
   revalidatePath("/account/reservations");
   revalidatePath("/account/reservations/edit/[bookingId]");
   redirect("/account/reservations");
+}
+
+export async function createReservation(
+  bookingData: {
+    startDate: Date | undefined;
+    endDate: Date | undefined;
+    cabinPrice: number;
+    cabinId: number;
+    numNights: number;
+  },
+  formData: FormData
+) {
+  const session = await auth();
+  if (!session) throw new Error("You have to be logged in!");
+
+  if (!bookingData.startDate || !bookingData.endDate) {
+    throw new Error("Please make sure to set the booking dates.");
+  }
+  const numGuests = formData.get("numGuests");
+
+  if (!numGuests) {
+    throw new Error("Number of guests is required.");
+  }
+
+  const newBookingData = {
+    ...bookingData,
+    // Convert dates to ISO strings
+    startDate: bookingData.startDate.toISOString(),
+    endDate: bookingData.endDate.toISOString(),
+    guestId: session.user.guestId,
+    numGuests: Number(numGuests),
+    observations: formData.get("observations")?.toString().slice(0, 1000),
+    extrasPrice: 0,
+    totalPrice: bookingData.cabinPrice,
+    isPaid: false,
+    hasBreakfast: false,
+    status: "unconfirmed",
+  };
+
+  const { error } = await supabase.from("bookings").insert(newBookingData);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Booking could not be created");
+  }
+  revalidatePath(`/cabins/${bookingData.cabinId}`);
+  redirect("/cabins/thankyou");
 }
